@@ -1,0 +1,19 @@
+docker.io
+docker-compose-v2
+tzdata
+ca-certificates
+curl
+gpg
+unattended-upgrades
+just
+vim
+tree
+ripgrep
+iotop
+tcpdump
+# for postgres/psycopg2
+postgresql
+gcc
+libpq-dev
+# firewall
+ufw
