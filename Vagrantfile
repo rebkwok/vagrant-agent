@@ -37,8 +37,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # mount ~/.claude and ~/.codex to keep sessions across reboots
   config.vm.synced_folder "~/.claude", "/home/vagrant/.claude"
   config.vm.synced_folder "~/.codex", "/home/vagrant/.codex"
+  # mount a .claude.json file; allows us to keep auth across reboots
+  # make this dir locally before running
+  # optionally, if you've run claude code locally, mount your local .claude.json instead
+  config.vm.synced_folder "~/.claude_for_vagrant", "/home/vagrant", type: "rsync", rsync__args: ["-r", "--include=.claude.json", "--exclude=*"]
   # mount project folders here
-  config.vm.synced_folder "../pins/", "/projects/pins/"
   # config.vm.synced_folder "../my-project/", "/projects/my-project/"
 
   config.vm.provision "shell" do |s|
