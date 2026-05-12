@@ -59,3 +59,7 @@ ufw allow out 80
 ufw allow out 123/udp
 
 ufw --force enable
+
+# add vagrant user to docker group
+groupadd docker
+usermod -aG docker $USER
