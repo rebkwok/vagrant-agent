@@ -16,15 +16,6 @@ set -u
 su - vagrant -c "curl -LsSf https://astral.sh/uv/install.sh | sh"
 echo 'export PATH="$HOME/.local/bin:$PATH"' | su vagrant -c "tee -a ~/.bashrc"
 
-# Install Claude Code via apt
-install -d -m 0755 /etc/apt/keyrings
-curl -fsSL https://downloads.claude.ai/keys/claude-code.asc \
-  -o /etc/apt/keyrings/claude-code.asc
-echo "deb [signed-by=/etc/apt/keyrings/claude-code.asc] https://downloads.claude.ai/claude-code/apt/stable stable main" \
-  | sudo tee /etc/apt/sources.list.d/claude-code.list
-apt-get update
-apt-get install -y claude-code
-
 # make projects dir
 mkdir -p /projects
 chown vagrant:vagrant /projects
@@ -33,11 +24,17 @@ chown vagrant:vagrant /projects
 su - vagrant -c "git config --global user.name $GIT_NAME"
 su - vagrant -c "git config --global user.email $GIT_EMAIL"
 
-# Install latest lts nodejs and codex
+# Install latest lts nodejs
 curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -
 apt-get install -y nodejs
+# configure npm
+su - vagrant -c "npm config set prefix '~/.local/'"
+su - vagrant -c "npm config set min-release-age 7"
+
+# Install claude globally
+su - vagrant -c "npm install -g @anthropic-ai/claude-code"
 # Install Codex globally
-npm install -g @openai/codex
+su - vagrant -c "npm install -g @openai/codex"
 
 echo "cd /projects" >> /home/vagrant/.profile
 chown vagrant:vagrant /home/vagrant/.profile
@@ -61,5 +58,5 @@ ufw allow out 123/udp
 ufw --force enable
 
 # add vagrant user to docker group
-groupadd docker
+groupadd -f docker
 usermod -aG docker $USER
