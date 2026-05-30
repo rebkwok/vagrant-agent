@@ -59,4 +59,4 @@ ufw --force enable
 
 # add vagrant user to docker group
 groupadd -f docker
-usermod -aG docker $USER
+usermod -aG docker vagrant
