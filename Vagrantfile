@@ -30,8 +30,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # provider stuff here
   # config.vm.provider "virtualbox" do |v|
   #   v.name = "vagrant_agent"
-    # v.memory = 1024
-    # v.cpus = 2
+  #   v.memory = 4096
+  #   v.cpus = 2
+  #   v.gui = false
+  #   v.customize(["modifyvm", :id, "--audio", "none"])
+  #   v.customize(["modifyvm", :id, "--usb", "off"])
   # end
 
   # mount ~/.claude and ~/.codex to keep sessions across reboots
